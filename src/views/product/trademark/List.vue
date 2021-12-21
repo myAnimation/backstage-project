@@ -132,7 +132,7 @@ export default {
       this.limit = limit;
       this.getTrademarkList();
     },
-    //  保存路径
+    //  保存路径了
     handleAvatarSuccess(res, file) {
       this.tmForm.logoUrl = res.data || file.response.data;
     },
