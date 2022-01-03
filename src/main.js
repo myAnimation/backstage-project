@@ -11,11 +11,14 @@ import '@/styles/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-import * as API from  '@/api/product'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-
+import CategorySelector from '@/components/CategorySelector'
+import * as API from '@/api'
+import HintButton from '@/components/HintButton'
+import '@/plugins/vcharts'
+import {hasBtnPermission}  from '@/utils/btnPermission'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -36,6 +39,9 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 Vue.prototype.$API = API
+Vue.component('CategorySelector',CategorySelector)
+Vue.component('HintButton',HintButton)
+Vue.prototype.$hasBp = hasBtnPermission
 new Vue({
   el: '#app',
   router,

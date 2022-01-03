@@ -58,16 +58,17 @@
 export default {
   name: 'Login',
   data() {
+    // 自定义表单验证规则对收集的用户名和密码进行表单验证
     const validateUsername = (rule, value, callback) => {
       if (value.length < 5) {
-        callback(new Error('账号长度不能小于五'))
+        callback(new Error('用户名长度不能小于5'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('密码长度不能小于6'))
+        callback(new Error('密码长度不能小于6位'))
       } else {
         callback()
       }

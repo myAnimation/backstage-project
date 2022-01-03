@@ -25,14 +25,17 @@ import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
+  name:'Sidebar',
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'sidebar'
+      'sidebar',
+      'routes'
     ]),
-    routes() {
-      return this.$router.options.routes
-    },
+    // routes() {
+    //   // 只能遍历初始化路由 不能遍历动态路由
+    //   return this.$router.options.routes
+    // },
     activeMenu() {
       const route = this.$route
       const { meta, path } = route

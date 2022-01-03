@@ -18,7 +18,7 @@ router.beforeEach(async(to, from, next) => {
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
-  const hasToken = localStorage.getItem('token_key')
+  const hasToken = store.state.user.token
 
   if (hasToken) {
     if (to.path === '/login') {
@@ -34,7 +34,9 @@ router.beforeEach(async(to, from, next) => {
           // get user info
           await store.dispatch('user/getInfo')
 
-          next()
+          // next()这里直接放行，路由还是找原本的动态添加之前的路由
+       
+          next({...to})
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')

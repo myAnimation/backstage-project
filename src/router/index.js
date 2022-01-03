@@ -30,6 +30,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+// 常量路由：所有的用户都能看到的放在这个里面
 export const constantRoutes = [
   {
     path: '/login',
@@ -49,50 +50,127 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
+      // title name  因为有遍历生成所以不要使用同一个
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-  // 配商品管理
-  {
-    path: '/product',
-    component: Layout,
-    name: 'Product',
-    meta: { title: '商品管理', icon: 'el-icon-s-shop' },
-    redirect: '/product/trademark/list',
-    children: [
-      {
-        path: 'trademark/list',
-        component: () => import('@/views/product/trademark/List'),
-        naem: 'Trademark',
-        meta: { title: '品牌管理' }
-      },
-      {
-        path: 'attr/list',
-        component: () => import('@/views/product/attr/List'),
-        name: 'Attr',
-        meta: { title: '平台属性管理' }
-      },
-      {
-        path: 'sku/list',
-        component: () => import('@/views/product/sku/List'),
-        name: 'Sku',
-        meta: { title: 'Sku管理' }
-      },
-      {
-        path: 'spu/list',
-        component: () => import('@/views/product/spu/List'),
-        name: 'Spu',
-        meta: { title: 'Spu管理' }
-      }
-    ]
-  },
-
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  // { path: '*', redirect: '/404', hidden: true }
 ]
+// 异步路由（动态路由），这里面放的是所有的需要动态设置添加路由器里面的路由
+// 后期我们会根据用户返回的routes数据，从这个数组当中过滤用户组件需要动态展示的路由
+export const allAsyncRoutes = [  // 配商品管理
+  //权限数据管理相关的路由
+  {
+    name: 'Acl',
+    path: '/acl',
+    component: Layout,
+    redirect: '/acl/user/list',
+    meta: { 
+      title: '权限管理', 
+      icon: 'el-icon-lock' 
+    },
+    children: [
+      {
+        name: 'User',
+        path: 'user/list',
+        component: () => import('@/views/acl/user/list'),
+        meta: { 
+          title: '用户管理', 
+        },
+      },
+      {
+        name: 'Role',
+        path: 'role/list',
+        component: () => import('@/views/acl/role/list'),
+        meta: { 
+          title: '角色管理', 
+        },
+      },
+      {
+        name: 'RoleAuth',
+        path: 'role/auth/:id',
+        component: () => import('@/views/acl/role/roleAuth'),
+        meta: {
+          activeMenu: '/acl/role/list',
+          title: '角色授权',
+        },
+        hidden: true,
+      },
+      {
+        name: 'Permission',
+        path: 'permission/list',
+        component: () => import('@/views/acl/permission/list'),
+        meta: { 
+          title: '菜单管理',
+        },
+      },
+    ]
+  },
+   //配置商品管理相关的路由
+  {
+    path:'/product',
+    component:Layout,
+    name:'Product',
+    meta:{title:'商品管理',icon:'el-icon-s-shop'},
+    redirect: '/product/trademark/list',
+    children:[
+      {
+        path:'trademark/list',
+        component: () => import('@/views/product/trademark/List'),
+        name:'Trademark',
+        meta:{title:'品牌管理'}
+      },
+      {
+        path:'attr/list',
+        component:() => import('@/views/product/attr/List'),
+        name:'Attr',
+        meta:{title:'平台属性管理'}
+      },
+      {
+        path:'spu/list',
+        component:() => import('@/views/product/spu/List'),
+        name:'Spu',
+        meta:{title:'Spu管理'}
+      },
+      {
+        path:'sku/list',
+        component:() => import('@/views/product/sku/List'),
+        name:'Sku',
+        meta:{title:'Sku管理'}
+      },
+    ]
+  },
+  // 测试
+  {
+    path:'/dyp',
+    component: Layout,
+    name:'Dyp',
+    meta:{title:'测试管理',icon:'el-icon-star-on'},
+  children:[
+    {
+      path:'dyp1/list',
+      name:'Dyp1',
+      meta:{title:'测试111'},
+      component:() => import('@/views/test/test111/List')
+    },
+    {
+      path:'dyp2/list',
+      name:'Dyp2',
+      meta:{title:'测试222'},
+      component:() => import('@/views/test/test222/List')
+    }
+  ]
+  
+  }
+
+]
+
+// 任意路由
+export const anyRoute =   { path: '*', redirect: '/404', hidden: true }
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
